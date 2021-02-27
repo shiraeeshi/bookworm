@@ -221,7 +221,29 @@ function State() {
   var that = this;
 
   that.pos = new Position();
+  that.markup = "";
   that.txt = "";
+  that.visiblePNum = 0;
+
+  var observer = new IntersectionObserver(function(entries) {
+    let ps = document.getElementsByTagName('p');
+
+    for (let i=0; i<entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        let target = entries[i].target;
+        for (let j=0; j<ps.length; j++) {
+          if (target === ps[j]) {
+            that.visiblePNum = j;
+          }
+        }
+        break;
+      }
+    }
+  }, { threshold: [0.1, 1] });
+
+  document.querySelectorAll('p').forEach(function(elem) {
+    observer.observe(elem);
+  });
 }
 
 State.prototype.keyPressed = function(keyCode) {
@@ -249,22 +271,39 @@ State.prototype.gotoPrevP = function() {
   that.gotoP(that.pos.pnum - 1);
 };
 
+State.prototype.gotoVisibleP = function() {
+  var that = this;
+  if (that.visiblePNum >= 0 &&
+    that.visiblePNum < document.getElementsByTagName('p').length) {
+    that.gotoP(that.visiblePNum);
+  }
+};
+
 State.prototype.gotoP = function(pnum) {
   var that = this;
   var p;
 
-  if (that.txt.length !== 0) {
+  if (that.markup.length !== 0) {
     p = document.getElementsByTagName('p')[that.pos.pnum];
     if (p !== undefined) {
-      p.innerHTML = that.txt;
+      p.innerHTML = that.markup;
     }
   }
   p = document.getElementsByTagName('p')[pnum];
   that.pos.pnum = pnum;
   that.pos.sentenceIndex = 0;
-  that.txt = p.innerHTML;
+  that.markup = p.innerHTML;
+  that.txt = that.extractTextFromParagraph(p);
   p.innerHTML = "<button>btn</button>" + p.innerHTML;
 }
+
+State.prototype.extractTextFromParagraph = function(paragraph) {
+  var sups = paragraph.getElementsByTagName('sup');
+  for (var i = sups.length - 1; i >= 0 ; i--) {
+    sups[i].remove();
+  }
+  return paragraph.innerText;
+};
 
 State.prototype.canGoToNextP = function() {
   var that = this;
@@ -326,7 +365,6 @@ State.prototype.splitToSentences = function(str) {
 
   return str.match(/[^.;?!:…]+[.;?!:…]+/g);
 };
-
 
 
 

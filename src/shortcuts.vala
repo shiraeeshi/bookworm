@@ -132,6 +132,9 @@ public class BookwormApp.Shortcuts {
         // goToPrevParagraph
             case "goToPrevParagraph":
                 return goToPrevParagraph ();
+        // goToVisibleParagraph
+            case "goToVisibleParagraph":
+                return goToVisibleParagraph ();
         // scrollDown
             case "scrollDown":
                 return scrollDown ();
@@ -198,6 +201,10 @@ public class BookwormApp.Shortcuts {
         // goToPrevParagraph
             case "goToPrevParagraph":
                 settingsOfShortcuts.go_to_prev_paragraph = shortcuts_as_settings_strings;
+                break;
+        // goToVisibleParagraph
+            case "goToVisibleParagraph":
+                settingsOfShortcuts.go_to_visible_paragraph = shortcuts_as_settings_strings;
                 break;
         // scrollDown
             case "scrollDown":
@@ -433,6 +440,17 @@ public class BookwormApp.Shortcuts {
         }
         else return false;
     }
+        // goToVisibleParagraph
+    public static bool goToVisibleParagraph () {
+        info (">>> goToVisibleParagraph");
+        if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
+            info (">>> goToVisibleParagraph 1");
+            var webView = BookwormApp.AppWindow.aWebView;
+            webView.run_javascript.begin ("state.gotoVisibleP();", null);
+            return true;
+        }
+        else return false;
+    }
 
     public static bool scrollDown () {
         if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
@@ -479,6 +497,7 @@ public class BookwormApp.ShortcutsAssocsHolder {
         // goToNextSentence
         // goToNextParagraph
         // goToPrevParagraph
+        // goToVisibleParagraph
         // scrollDown
         // scrollUp
 
@@ -501,6 +520,8 @@ public class BookwormApp.ShortcutsAssocsHolder {
         var goToNextParagraph = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.go_to_next_paragraph, "goToNextParagraph", ShortcutGroup.READING_VIEW_GROUP);
         // goToPrevParagraph
         var goToPrevParagraph = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.go_to_prev_paragraph, "goToPrevParagraph", ShortcutGroup.READING_VIEW_GROUP);
+        // goToVisibleParagraph
+        var goToVisibleParagraph = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.go_to_visible_paragraph, "goToVisibleParagraph", ShortcutGroup.READING_VIEW_GROUP);
         // scrollDown
         var scrollDown = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.scroll_down, "scrollDown", ShortcutGroup.READING_VIEW_GROUP);
         // scrollUp
@@ -523,6 +544,7 @@ public class BookwormApp.ShortcutsAssocsHolder {
             goToNextSentence,
             goToNextParagraph, 
             goToPrevParagraph,
+            goToVisibleParagraph,
             scrollDown,
             scrollUp
         };

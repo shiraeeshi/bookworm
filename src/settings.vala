@@ -83,6 +83,7 @@ public class BookwormApp.SettingsOfShortcuts : Granite.Services.Settings {
     public string[] go_to_next_sentence { get; set; }
     public string[] go_to_next_paragraph { get; set; }
     public string[] go_to_prev_paragraph { get; set; }
+    public string[] go_to_visible_paragraph { get; set; }
     public string[] scroll_down { get; set; }
     public string[] scroll_up { get; set; }
 

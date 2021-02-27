@@ -181,6 +181,10 @@
 			<default>["p 4"]</default>
 			<summary>goToPrevParagraph</summary>
 		</key>
+		<key name="go-to-visible-paragraph" type="as">
+			<default>["v 0"]</default>
+			<summary>goToVisibleParagraph</summary>
+		</key>
 		<key name="scroll-down" type="as">
 			<default>["j 0"]</default>
 			<summary>activateSecondWebView</summary>
