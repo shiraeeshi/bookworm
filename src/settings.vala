@@ -80,5 +80,10 @@ public class BookwormApp.SettingsOfShortcuts : Granite.Services.Settings {
     public string[] toggle_fullscreen { get; set; }
     public string[] close_bookworm_completely { get; set; }
     public string[] focus_on_header_search_bar { get; set; }
+    public string[] go_to_next_sentence { get; set; }
+    public string[] go_to_next_paragraph { get; set; }
+    public string[] go_to_prev_paragraph { get; set; }
+    public string[] scroll_down { get; set; }
+    public string[] scroll_up { get; set; }
 
 }

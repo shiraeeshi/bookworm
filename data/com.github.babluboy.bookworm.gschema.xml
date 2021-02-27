@@ -169,5 +169,25 @@
 			<default>["f 4", "F 4"]</default>
 			<summary>focusOnHeaderSearchBar</summary>
 		</key>
+		<key name="go-to-next-sentence" type="as">
+			<default>["n 0"]</default>
+			<summary>goToNextSentence</summary>
+		</key>
+		<key name="go-to-next-paragraph" type="as">
+			<default>["p 0"]</default>
+			<summary>goToNextParagraph</summary>
+		</key>
+		<key name="go-to-prev-paragraph" type="as">
+			<default>["p 4"]</default>
+			<summary>goToPrevParagraph</summary>
+		</key>
+		<key name="scroll-down" type="as">
+			<default>["j 0"]</default>
+			<summary>activateSecondWebView</summary>
+		</key>
+		<key name="scroll-up" type="as">
+			<default>["k 0"]</default>
+			<summary>activateSecondWebView</summary>
+		</key>
   </schema>
 </schemalist>

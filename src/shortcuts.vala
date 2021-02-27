@@ -123,6 +123,21 @@ public class BookwormApp.Shortcuts {
                 return closeBookwormCompletely ();
             case "focusOnHeaderSearchBar":
                 return focusOnHeaderSearchBar ();
+        // goToNextSentence
+            case "goToNextSentence":
+                return goToNextSentence ();
+        // goToNextParagraph
+            case "goToNextParagraph":
+                return goToNextParagraph ();
+        // goToPrevParagraph
+            case "goToPrevParagraph":
+                return goToPrevParagraph ();
+        // scrollDown
+            case "scrollDown":
+                return scrollDown ();
+        // scrollUp
+            case "scrollUp":
+                return scrollUp ();
             default:
                 return false;
         }
@@ -171,6 +186,26 @@ public class BookwormApp.Shortcuts {
                 break;
             case "focusOnHeaderSearchBar":
                 settingsOfShortcuts.focus_on_header_search_bar = shortcuts_as_settings_strings;
+                break;
+        // goToNextSentence
+            case "goToNextSentence":
+                settingsOfShortcuts.go_to_next_sentence = shortcuts_as_settings_strings;
+                break;
+        // goToNextParagraph
+            case "goToNextParagraph":
+                settingsOfShortcuts.go_to_next_paragraph = shortcuts_as_settings_strings;
+                break;
+        // goToPrevParagraph
+            case "goToPrevParagraph":
+                settingsOfShortcuts.go_to_prev_paragraph = shortcuts_as_settings_strings;
+                break;
+        // scrollDown
+            case "scrollDown":
+                settingsOfShortcuts.scroll_down = shortcuts_as_settings_strings;
+                break;
+        // scrollUp
+            case "scrollUp":
+                settingsOfShortcuts.scroll_up = shortcuts_as_settings_strings;
                 break;
             default:
                 break;
@@ -365,6 +400,57 @@ public class BookwormApp.Shortcuts {
         return true;
     }
 
+        // goToNextSentence
+    public static bool goToNextSentence () {
+        info (">>> goToNextSentence");
+        if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
+            info (">>> goToNextSentence 1");
+            var webView = BookwormApp.AppWindow.aWebView;
+            webView.run_javascript.begin ("state.gotoNextSentence();", null);
+            return true;
+        }
+        else return false;
+    }
+        // goToNextParagraph
+    public static bool goToNextParagraph () {
+        info (">>> goToNextParagraph");
+        if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
+            info (">>> goToNextParagraph 1");
+            var webView = BookwormApp.AppWindow.aWebView;
+            webView.run_javascript.begin ("state.gotoNextP();", null);
+            return true;
+        }
+        else return false;
+    }
+        // goToPrevParagraph
+    public static bool goToPrevParagraph () {
+        info (">>> goToPrevParagraph");
+        if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
+            info (">>> goToPrevParagraph 1");
+            var webView = BookwormApp.AppWindow.aWebView;
+            webView.run_javascript.begin ("state.gotoPrevP();", null);
+            return true;
+        }
+        else return false;
+    }
+
+    public static bool scrollDown () {
+        if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
+            var webView = BookwormApp.AppWindow.aWebView;
+            webView.run_javascript.begin ("scrollBy(0, 10);", null);
+            return true;
+        }
+        else return false;
+    }
+
+    public static bool scrollUp () {
+        if (BookwormApp.Bookworm.BOOKWORM_CURRENT_STATE == BookwormApp.Constants.BOOKWORM_UI_STATES[1]) {
+            var webView = BookwormApp.AppWindow.aWebView;
+            webView.run_javascript.begin ("scrollBy(0, -10);", null);
+            return true;
+        }
+        else return false;
+    }
 }
 
 public class BookwormApp.ShortcutsAssocsHolder {
@@ -390,6 +476,12 @@ public class BookwormApp.ShortcutsAssocsHolder {
         // closeBookwormCompletely
         // focusOnHeaderSearchBar
 
+        // goToNextSentence
+        // goToNextParagraph
+        // goToPrevParagraph
+        // scrollDown
+        // scrollUp
+
         var toggleLibraryView = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.toggle_library_view, "toggleLibraryView", ShortcutGroup.LIBRARY_VIEW_GROUP);
         var moveLibraryPageBackward = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.move_library_page_backward, "moveLibraryPageBackward", ShortcutGroup.LIBRARY_VIEW_GROUP);
         var moveLibraryPageForward = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.move_library_page_forward, "moveLibraryPageForward", ShortcutGroup.LIBRARY_VIEW_GROUP);
@@ -403,6 +495,16 @@ public class BookwormApp.ShortcutsAssocsHolder {
         var toggleFullScreen = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.toggle_fullscreen, "toggleFullScreen", ShortcutGroup.ALL);
         var closeBookwormCompletely = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.close_bookworm_completely, "closeBookwormCompletely", ShortcutGroup.ALL);
         var focusOnHeaderSearchBar = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.focus_on_header_search_bar, "focusOnHeaderSearchBar", ShortcutGroup.ALL);
+        // goToNextSentence
+        var goToNextSentence = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.go_to_next_sentence, "goToNextSentence", ShortcutGroup.READING_VIEW_GROUP);
+        // goToNextParagraph
+        var goToNextParagraph = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.go_to_next_paragraph, "goToNextParagraph", ShortcutGroup.READING_VIEW_GROUP);
+        // goToPrevParagraph
+        var goToPrevParagraph = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.go_to_prev_paragraph, "goToPrevParagraph", ShortcutGroup.READING_VIEW_GROUP);
+        // scrollDown
+        var scrollDown = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.scroll_down, "scrollDown", ShortcutGroup.READING_VIEW_GROUP);
+        // scrollUp
+        var scrollUp = ShortcutsToActionAssoc.fromShortcutsStringsArray (settingsOfShortcuts.scroll_up, "scrollUp", ShortcutGroup.READING_VIEW_GROUP);
 
         return {
             toggleLibraryView,
@@ -417,7 +519,12 @@ public class BookwormApp.ShortcutsAssocsHolder {
             unfullscreen,
             toggleFullScreen,
             closeBookwormCompletely,
-            focusOnHeaderSearchBar
+            focusOnHeaderSearchBar,
+            goToNextSentence,
+            goToNextParagraph, 
+            goToPrevParagraph,
+            scrollDown,
+            scrollUp
         };
     }
 

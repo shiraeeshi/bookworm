@@ -204,3 +204,130 @@ function init_pagination() {
 	page.innerHTML = "";
 	fillPage( page, "forward" );
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+function Position() {
+  var that = this;
+
+  that.pnum = 0;
+  that.startIndex = 0;
+  that.endIndex = 0;
+
+  that.sentenceIndex = 0;
+}
+
+function State() {
+  var that = this;
+
+  that.pos = new Position();
+  that.txt = "";
+}
+
+State.prototype.keyPressed = function(keyCode) {
+  var that = this;
+
+  if (keyCode == 'n') {
+    that.gotoNextSentence();
+  } else if (keyCode == 'N') {
+    that.gotoNextP();
+  } else if (keyCode == 'p') {
+  } else if (keyCode == 'P') {
+    that.gotoPrevP();
+  }
+};
+
+State.prototype.gotoNextP = function() {
+  var that = this;
+
+  that.gotoP(that.pos.pnum + 1);
+};
+
+State.prototype.gotoPrevP = function() {
+  var that = this;
+
+  that.gotoP(that.pos.pnum - 1);
+};
+
+State.prototype.gotoP = function(pnum) {
+  var that = this;
+  var p;
+
+  if (that.txt.length !== 0) {
+    p = document.getElementsByTagName('p')[that.pos.pnum];
+    if (p !== undefined) {
+      p.innerHTML = that.txt;
+    }
+  }
+  p = document.getElementsByTagName('p')[pnum];
+  that.pos.pnum = pnum;
+  that.pos.sentenceIndex = 0;
+  that.txt = p.innerHTML;
+  p.innerHTML = "<button>btn</button>" + p.innerHTML;
+}
+
+State.prototype.canGoToNextP = function() {
+  var that = this;
+
+  var ps = document.getElementsByTagName('p');
+  return that.pos.pnum + 1 < ps.length;
+};
+
+
+State.prototype.canGoToNextSentence = function() {
+  var that = this;
+
+  var splitted = that.splitToSentences(that.txt);
+  return that.pos.sentenceIndex + 1 < splitted.length;
+};
+
+
+
+State.prototype.gotoNextSentence = function() {
+  var that = this;
+
+  if (that.canGoToNextSentence()) {
+    that.pos.sentenceIndex++;
+    that.highlightCurrentSentence();
+  } else if (that.canGoToNextP()) {
+    that.gotoNextP();
+    that.highlightCurrentSentence();
+  }
+};
+
+
+
+State.prototype.highlightCurrentSentence = function() {
+  var that = this;
+
+  var splitted = that.splitToSentences(that.txt);
+  
+  that.replaceElement(splitted, that.pos.sentenceIndex, function wrapWithSpan(str) {
+    return '<span class="highlighted">' + str + '</span>';
+  });
+
+
+  var p = document.getElementsByTagName('p')[that.pos.pnum];
+  p.innerHTML = splitted.join('');
+
+  if (window.webkit && window.webkit.messageHandlers) {
+    window.webkit.messageHandlers['some_script_message_handler'].postMessage(that.pos.sentenceIndex);
+  }
+};
+
+
+
+State.prototype.replaceElement = function(arr, ind, replacer) {
+  arr[ind] = replacer(arr[ind]);
+};
+
+State.prototype.splitToSentences = function(str) {
+  var that = this;
+
+  return str.match(/[^.;?!:…]+[.;?!:…]+/g);
+};
+
+
+
+
+var state = new State();

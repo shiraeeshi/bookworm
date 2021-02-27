@@ -220,6 +220,13 @@ public class BookwormApp.contentHandler {
                                   WebKit.UserStyleLevel.AUTHOR, 
                                   null, null)
         );
+
+        BookwormApp.AppWindow.aWebView.get_user_content_manager().add_style_sheet(
+            new WebKit.UserStyleSheet("""
+                                      span.highlighted {
+                                          color: black !important;
+                                      }
+                                      """, WebKit.UserContentInjectedFrames.ALL_FRAMES, WebKit.UserStyleLevel.AUTHOR, null, null));
         debug ("[END] [FUNCTION:adjustPageContent] pageContent.length=" + pageContent.str.length.to_string ());
         debug ("\n\n\n" + pageContent.str);
         return pageContent.str;
